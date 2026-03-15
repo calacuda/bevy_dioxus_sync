@@ -1,6 +1,6 @@
 [package]
 name = "bevy_dioxus_sync"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 description = "Top crate for bevy-dioxus interop through syncronization"
 license = "MIT OR Apache-2.0"
@@ -8,7 +8,7 @@ repository = "https://github.com/rydb/bevy_dioxus_sync"
 keywords = ["dom", "ui", "gui", "bevy", "dioxus"]
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 
 [workspace]
@@ -18,10 +18,38 @@ members = [
 ]
 resolver = "3"
 
+[patch.crates-io]
+# anyrender_vello = { git = "https://github.com/DioxusLabs/anyrender.git", ref="4b5fb87176fe2c0edbfd841d6a30f5b411b585a9", version = "0.7.1" }
+# anyrender_vello_2 = { git = "https://github.com/DioxusLabs/anyrender.git", ref="4b5fb87176fe2c0edbfd841d6a30f5b411b585a9", package = "anyrender_vello", version = "0.7.1" }
+# anyrender_vello = { git = "https://github.com/DioxusLabs/anyrender.git", rev="4b5fb87176fe2c0edbfd841d6a30f5b411b585a9", package = "anyrender_vello", version = "=0.7.1" }
+anyrender_vello = { git = "https://github.com/DioxusLabs/anyrender.git", rev="1288ed6be23c972df01d57d4c701f4c77906d383", package = "anyrender_vello", version = "=0.7.0" }
+# anyrender_vello = "=0.7.0"
+anyrender = { git = "https://github.com/DioxusLabs/anyrender.git", rev="1288ed6be23c972df01d57d4c701f4c77906d383", package = "anyrender", version = "=0.7.0" }
+# vello_2 = { git = "https://github.com/linebender/vello.git", ref="7f45113b44f862bb101b54238a3e7b8ddf882e50", package = "vello", version = "0.7.0" }
+# vello = { git = "https://github.com/linebender/vello.git", ref="7f45113b44f862bb101b54238a3e7b8ddf882e50", package = "vello", version = "0.6.1" }
+vello = { git = "https://github.com/linebender/vello.git", rev="5779e8111dc1b609c5d0c9f8ec0e8661cc507131", package = "vello", version = "=0.7.0" }
+# vello = { git = "https://github.com/linebender/vello.git", rev="00a6e8a3d5c9d1ff68b1129795ae2632cc199e78", package = "vello", version = "=0.6.0" }
+# wgpu = { version = "=27.0.1", git = "https://github.com/gfx-rs/wgpu.git", rev = "c76dea031c688ecef0050dbf60506fff128fb23f", package = "wgpu" }
+wgpu = { version = "=27.0.3", git = "https://github.com/gfx-rs/wgpu.git", rev = "542d7c98cee1e5ea6a085e032102643f0c54e9aa", package = "wgpu" }
+# wgpu_types = { version = "=27.0.1", git = "https://github.com/gfx-rs/wgpu.git", rev = "c76dea031c688ecef0050dbf60506fff128fb23f", package = "wgpu-types" }
+wgpu_types = { version = "=27.0.3", git = "https://github.com/gfx-rs/wgpu.git", rev = "542d7c98cee1e5ea6a085e032102643f0c54e9aa", package = "wgpu-types" }
+naga = { version = "27.0.1", git = "https://github.com/gfx-rs/wgpu.git", rev = "542d7c98cee1e5ea6a085e032102643f0c54e9aa", package = "naga", features = ["stderr", "termcolor"] }
+blitz_paint = { version = "=0.2.1", git = "https://github.com/DioxusLabs/blitz.git", rev = "05c9892932a3d03858f634d416606a376052e544", package = "blitz-paint" }
+
+# [replace]
+# # wgpu = "=26"
+# # anyrender_vello = { git = "https://github.com/DioxusLabs/anyrender", ref="4b5fb87176fe2c0edbfd841d6a30f5b411b585a9", version = "0.7.1" }
+# "anyrender_vello:0.6.2" = { git = "https://github.com/DioxusLabs/anyrender", ref="4b5fb87176fe2c0edbfd841d6a30f5b411b585a9" }
+# anyrender_vello = { version = "0.7.1" }
+
+# [dioxus-native.dependencies.anyrender_vello]
+# git = "https://github.com/DioxusLabs/anyrender"
+
 [workspace.dependencies]
 # TODO: dioxus-native fails to publish without these features, even though the crate doesn't need them. 
 # remove net and html when that is resolved.
-dioxus-native = { version = "0.7", default-features = false, features = ["net", "html"]}
+dioxus-native = { version = "0.7", default-features = false}
+# dioxus-native = { version = "0.7", default-features = false, features = ["net", "html"]}
 dioxus-native-dom = {version = "0.7", default-features = false}
 dioxus = {version = "0.7", default-features = false}
 dioxus-signals = {version = "0.7", default-features = false}
@@ -33,37 +61,38 @@ dioxus-devtools = {version = "0.7", default-features = false}
 dioxus-document = {version = "0.7", default-features = false}
 dioxus-asset-resolver = {version = "0.7", default-features = false}
 
-bevy_dioxus_sync = {path = "./", version = "0.1"}
-bevy_dioxus_render = {path = "./crates/render", version = "0.1"}
-bevy_dioxus_hooks = {path = "./crates/hooks", version = "0.1"}
-bevy_dioxus_interop = {path = "./crates/interop", version = "0.1"}
-bevy_dioxus_messages = {path = "./crates/messages", version = "0.1"}
-bevy = {version = "0.17"}
-bevy_ecs = {version = "0.17"}
-bevy_render = {version = "0.17"}
-bevy_app = {version = "0.17"}
-bevy_transform = {version = "0.17"}
-bevy_mesh = {version = "0.17"}
-bevy_utils = {version = "0.17"}
-bevy_window = {version = "0.17"}
-bevy_math = {version = "0.17"}
-bevy_winit = {version = "0.17"}
-bevy_asset = {version = "0.17"}
-bevy_log = {version = "0.17"}
-bevy_input = {version = "0.17"}
-bevy_time = {version = "0.17"}
-bevy_image = {version = "0.17"}
-bevy_picking = {version = "0.17"}
-bevy_derive = {version = "0.17"}
-bevy_color = {version = "0.17"}
-bevy_sprite = {version = "0.17"}
-bevy_pbr = {version = "0.17"}
-bevy_core_pipeline = {version = "0.17"}
-bevy_tasks = {version = "0.17"}
-bevy_camera = {version = "0.17"}
-bevy_sprite_render = {version = "0.17"}
+bevy_dioxus_sync = {path = "./", version = "0.2"}
+bevy_dioxus_render = {path = "./crates/render", version = "0.2"}
+bevy_dioxus_hooks = {path = "./crates/hooks", version = "0.2"}
+bevy_dioxus_interop = {path = "./crates/interop", version = "0.2"}
+bevy_dioxus_messages = {path = "./crates/messages", version = "0.2"}
+bevy = {version = "0.18"}
+bevy_ecs = {version = "0.18"}
+bevy_render = {version = "0.18"}
+bevy_app = {version = "0.18"}
+bevy_transform = {version = "0.18"}
+bevy_mesh = {version = "0.18"}
+bevy_utils = {version = "0.18"}
+bevy_window = {version = "0.18"}
+bevy_math = {version = "0.18"}
+bevy_winit = {version = "0.18"}
+bevy_asset = {version = "0.18"}
+bevy_log = {version = "0.18"}
+bevy_input = {version = "0.18"}
+bevy_time = {version = "0.18"}
+bevy_image = {version = "0.18"}
+bevy_picking = {version = "0.18"}
+bevy_derive = {version = "0.18"}
+bevy_color = {version = "0.18"}
+bevy_sprite = {version = "0.18"}
+bevy_pbr = {version = "0.18"}
+bevy_core_pipeline = {version = "0.18"}
+bevy_tasks = {version = "0.18"}
+bevy_camera = {version = "0.18"}
+bevy_sprite_render = {version = "0.18"}
 
-vello = {version = "0.6"}
+# vello = {version = "0.7", default-features = false}
+vello = { version = "*" }
 rustc-hash = "1"
 bytemuck = "1.23"
 data-url = "0.3.2"
@@ -71,7 +100,8 @@ bytes = "1.10"
 tokio = "1.48"
 maybe-debug = "0.1"
 
-anyrender_vello = {version = "0.6", default-features = false}
+# anyrender_vello = {version = "0.7", default-features = false}
+anyrender_vello = {version = "0.7"}  # make 0.7?
 blitz-net = { version = "0.2", default-features = false}
 blitz-paint = { version = "0.2", default-features = false}
 blitz-traits = { version = "0.2", default-features = false}
@@ -81,8 +111,12 @@ blitz-html = {version = "0.2", default-features = false}
 
 async-std = "1.13"
 crossbeam-channel = "0.5"
-wgpu = "26"
-wgpu-types = "26"
+# wgpu = "26"
+wgpu = { version = "=27.0", default-features = false }
+# wgpu = "25"
+# wgpu-types = "26"
+wgpu-types = { version = "=27.0", default-features = false }
+# wgpu-types = "25"
 
 [dependencies]
 bevy_dioxus_render = {workspace = true}
@@ -120,3 +154,8 @@ dioxus-signals = {workspace = true}
 dioxus-hooks = {workspace = true}
 dioxus-core-macro = {workspace = true}
 dioxus-document = {workspace = true}
+# naga = { version = "=26.0.0", features = ["stderr", "termcolor"] }
+naga_1 = { package = "naga", version = "26.0.0", features = ["stderr", "termcolor"] }
+# naga_2 = { package = "naga", version = "=27.0.1", features = ["stderr", "termcolor"] }
+# naga = { features = ["stderr", "termcolor"] }
+# naga_4 = { package = "naga", version = "28.0.0", features = ["stderr", "termcolor"] }
